@@ -176,9 +176,17 @@ const communityLinks = [
       </div>
 
       <div class="mt-24 overflow-hidden border-y border-ink/8 py-4 text-terra md:mt-16">
-        <div class="marquee-track flex gap-10 whitespace-nowrap font-kannada-display text-xl font-semibold tracking-[-0.02em]">
-          <span>{t('hero.marquee')}</span>
-          <span aria-hidden="true">{t('hero.marquee')}</span>
+        <div class="marquee-track whitespace-nowrap font-kannada-display text-xl font-semibold tracking-[-0.02em]">
+          <div class="marquee-group">
+            <span>{t('hero.marquee')}</span>
+            <span aria-hidden="true">{t('hero.marquee')}</span>
+            <span aria-hidden="true">{t('hero.marquee')}</span>
+          </div>
+          <div class="marquee-group" aria-hidden="true">
+            <span>{t('hero.marquee')}</span>
+            <span>{t('hero.marquee')}</span>
+            <span>{t('hero.marquee')}</span>
+          </div>
         </div>
       </div>
     </section>
