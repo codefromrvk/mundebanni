@@ -1,0 +1,85 @@
+---
+import '../styles/global.css';
+import type { Locale } from '../i18n/translations';
+import { brandAssets, externalLinks, officialOrigin } from '../config/site';
+
+interface Props {
+  title: string;
+  description: string;
+  locale: Locale;
+}
+
+const { title, description, locale } = Astro.props;
+const canonicalPath = locale === 'kn' ? '/' : '/en/';
+const canonicalUrl = new URL(canonicalPath, Astro.site);
+const kannadaUrl = new URL('/', Astro.site);
+const englishUrl = new URL('/en/', Astro.site);
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Mundhe Banni',
+  url: officialOrigin,
+  logo: brandAssets.logo,
+  foundingDate: '2023',
+  description,
+  sameAs: [externalLinks.instagram, externalLinks.youtube],
+};
+---
+
+<!doctype html>
+<html lang={locale} class="notranslate" translate="no">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="google" content="notranslate" />
+    <meta name="googlebot" content="notranslate" />
+    <meta name="theme-color" content="#071d38" />
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content={locale === 'kn' ? 'kn_IN' : 'en_IN'} />
+    <meta property="og:image" content={brandAssets.communityHero} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={brandAssets.communityHero} />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" hreflang="kn" href={kannadaUrl} />
+    <link rel="alternate" hreflang="en" href={englishUrl} />
+    <link rel="alternate" hreflang="x-default" href={kannadaUrl} />
+    <link rel="icon" href={brandAssets.favicon} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Anek+Kannada:wdth,wght@75..125,100..800&family=Manrope:wght@400;500;600;700;800&family=Noto+Serif:wght@400;600;700;800&family=Noto+Serif+Kannada:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script is:inline>
+      document.documentElement.classList.add('js');
+      try {
+        if (sessionStorage.getItem('mundhe-banni:intro-seen') === '1') {
+          document.documentElement.dataset.introSeen = 'true';
+        }
+      } catch {}
+    </script>
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+    <title>{title}</title>
+  </head>
+  <body class={`locale-${locale}`}>
+    <slot />
+    <script>
+      const items = document.querySelectorAll<HTMLElement>('[data-reveal]');
+      const observer = new IntersectionObserver(
+        (entries, revealObserver) => {
+          for (const entry of entries) {
+            if (!entry.isIntersecting) continue;
+            entry.target.classList.add('is-visible');
+            revealObserver.unobserve(entry.target);
+          }
+        },
+        { rootMargin: '0px 0px -8% 0px', threshold: 0.08 },
+      );
+
+      for (const item of items) observer.observe(item);
+    </script>
+  </body>
+</html>

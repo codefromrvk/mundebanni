@@ -1,0 +1,445 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import IntroReveal from './IntroReveal';
+import Navigation from './Navigation';
+import EpisodeCard from './EpisodeCard.astro';
+import { createTranslator } from '../i18n';
+import type { Locale } from '../i18n/translations';
+import { brandAssets, externalLinks, officialPath } from '../config/site';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = await createTranslator(locale);
+
+const navigationCopy = {
+  brandTagline: t('nav.brandTagline'),
+  stories: t('nav.stories'),
+  storiesSub: t('nav.storiesSub'),
+  movement: t('nav.movement'),
+  movementSub: t('nav.movementSub'),
+  community: t('nav.community'),
+  communitySub: t('nav.communitySub'),
+  watch: t('nav.watch'),
+  motto: t('nav.motto'),
+  allLinks: t('nav.allLinks'),
+  languageLabel: t('nav.languageLabel'),
+};
+
+const episodes = [
+  {
+    episode: t('stories.ep4Number'),
+    title: t('stories.ep4Title'),
+    guest: t('stories.ep4Guest'),
+    image: 'https://i.ytimg.com/vi/HRtSohe9q7s/maxresdefault.jpg',
+    href: 'https://youtu.be/HRtSohe9q7s',
+    accent: 'yellow' as const,
+    featured: true,
+  },
+  {
+    episode: t('stories.ep3Number'),
+    title: t('stories.ep3Title'),
+    guest: t('stories.ep3Guest'),
+    image: 'https://i.ytimg.com/vi/fZ3unSsnGrI/maxresdefault.jpg',
+    href: 'https://youtu.be/fZ3unSsnGrI',
+    accent: 'paper' as const,
+  },
+  {
+    episode: t('stories.ep1Number'),
+    title: t('stories.ep1Title'),
+    guest: t('stories.ep1Guest'),
+    image: 'https://i.ytimg.com/vi/t1QY2aotDP4/maxresdefault.jpg',
+    href: 'https://youtu.be/t1QY2aotDP4',
+    accent: 'red' as const,
+  },
+];
+
+const communityLinks = [
+  {
+    number: '01',
+    title: t('community.whatsappTitle'),
+    text: t('community.whatsappText'),
+    label: t('community.whatsappLabel'),
+    href: externalLinks.whatsapp,
+  },
+  {
+    number: '02',
+    title: t('community.newsletterTitle'),
+    text: t('community.newsletterText'),
+    label: t('community.newsletterLabel'),
+    href: officialPath(locale, 'newsletter'),
+  },
+  {
+    number: '03',
+    title: t('community.meetupTitle'),
+    text: t('community.meetupText'),
+    label: t('community.meetupLabel'),
+    href: officialPath(locale, 'meetups'),
+  },
+];
+---
+
+<BaseLayout
+  title={t('meta.title')}
+  description={t('meta.description')}
+  locale={locale}
+>
+  <IntroReveal client:load />
+  <Navigation locale={locale} copy={navigationCopy} client:load />
+
+  <main id="top">
+    <section class="relative min-h-[100dvh] overflow-hidden pt-32 pb-20 md:pt-40 md:pb-28">
+      <div class="pointer-events-none absolute top-[12%] right-[-5rem] size-72 rounded-full bg-turmeric/15 md:size-[30rem]" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute bottom-[8%] left-[-12rem] size-[28rem] rounded-full bg-terra/8" aria-hidden="true"></div>
+
+      <div class="page-shell grid min-h-[calc(100dvh-10rem)] grid-cols-1 items-center gap-14 md:grid-cols-[1.05fr_.95fr] md:gap-10 lg:gap-20">
+        <div class="relative z-10 w-full">
+          <div class="eyebrow mb-8 text-terra" data-reveal>{t('hero.eyebrow')}</div>
+          <h1 class="max-w-[12ch] font-kannada-display text-[clamp(4.5rem,9vw,9.8rem)] font-semibold leading-[0.79] tracking-[-0.065em] text-ink" data-reveal data-reveal-delay="1">
+            {t('hero.titleOne')}<br />
+            <span class="text-terra">{t('hero.titleTwo')}</span>
+          </h1>
+          <p class="mt-10 max-w-xl font-kannada-serif text-lg leading-[1.8] text-ink-soft md:text-xl" data-reveal data-reveal-delay="2">
+            {t('hero.description')}
+          </p>
+
+          <div class="mt-9 flex flex-wrap items-center gap-3" data-reveal data-reveal-delay="3">
+            <a class="island-button bg-ink text-paper-light" href="https://youtu.be/svtV7jRmOCc" target="_blank" rel="noreferrer">
+              <span class="font-kannada-display text-base">{t('hero.latestCta')}</span>
+              <span class="island-button__icon bg-paper-light/12">
+                <svg class="size-4" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M8 16 16 8m-6 0h6v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+              </span>
+            </a>
+            <a class="island-button bg-paper-light text-ink shadow-[inset_0_0_0_1px_rgba(24,21,15,.09)]" href="#community">
+              <span class="font-kannada-display text-base">{t('hero.communityCta')}</span>
+              <span class="island-button__icon bg-ink/6">
+                <svg class="size-4" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M5 12h13m-5-5 5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+              </span>
+            </a>
+          </div>
+
+          <div class="mt-14 flex items-center gap-5 text-[0.6rem] font-bold tracking-[0.14em] text-ink/50 uppercase" data-reveal data-reveal-delay="3">
+            <div class="flex -space-x-2" aria-hidden="true">
+              <span class="grid size-8 place-items-center rounded-full bg-terra text-[0.55rem] text-paper-light ring-2 ring-paper">ಕ</span>
+              <span class="grid size-8 place-items-center rounded-full bg-leaf text-[0.55rem] text-paper-light ring-2 ring-paper">ಉ</span>
+              <span class="grid size-8 place-items-center rounded-full bg-turmeric text-[0.55rem] text-ink ring-2 ring-paper">ಸ</span>
+            </div>
+            <span>{t('hero.supporting')}</span>
+          </div>
+        </div>
+
+        <div class="relative w-full md:pl-5" data-reveal data-reveal-delay="2">
+          <div class="double-bezel relative rotate-[1.5deg] transition-transform duration-1000 ease-[cubic-bezier(0.32,0.72,0,1)] hover:rotate-0">
+            <a
+              class="double-bezel__core group relative block aspect-[4/5] overflow-hidden bg-ink sm:aspect-[16/11] md:aspect-[4/5]"
+              href="https://youtu.be/svtV7jRmOCc"
+              target="_blank"
+              rel="noreferrer"
+              aria-label={t('hero.episodeAria')}
+            >
+              <img
+                class="h-full w-full object-cover transition-transform duration-1000 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-[1.03]"
+                src="https://i.ytimg.com/vi/svtV7jRmOCc/maxresdefault.jpg"
+                alt={t('hero.episodeAlt')}
+                fetchpriority="high"
+                decoding="async"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/5 to-transparent"></div>
+              <div class="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-6 text-paper-light md:p-8">
+                <div>
+                  <p class="mb-2 text-[0.55rem] font-extrabold tracking-[0.2em] text-turmeric uppercase">{t('hero.latestTag')}</p>
+                  <p class="max-w-md font-kannada-display text-2xl font-semibold leading-tight md:text-3xl">{t('hero.featuredTitle')}</p>
+                </div>
+                <span class="grid size-12 shrink-0 place-items-center rounded-full bg-paper-light text-ink transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-105 group-hover:rotate-[-5deg]">
+                  <svg class="ml-0.5 size-4" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m9 7 8 5-8 5V7Z" fill="currentColor"></path></svg>
+                </span>
+              </div>
+            </a>
+          </div>
+
+          <div class="double-bezel absolute -right-3 -bottom-8 w-[72%] rotate-[-2deg] md:-right-8 md:-bottom-10 md:w-[64%]">
+            <div class="double-bezel__core flex items-center justify-between gap-4 bg-turmeric px-5 py-4 text-ink">
+              <div>
+                <p class="text-[0.52rem] font-extrabold tracking-[0.17em] uppercase">{t('hero.questionLabel')}</p>
+                <p class="mt-1 font-kannada-serif text-sm font-semibold">{t('hero.question')}</p>
+              </div>
+              <span class="font-kannada-display text-4xl font-semibold">09</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-24 overflow-hidden border-y border-ink/8 py-4 text-terra md:mt-16">
+        <div class="marquee-track flex gap-10 whitespace-nowrap font-kannada-display text-xl font-semibold tracking-[-0.02em]">
+          <span>{t('hero.marquee')}</span>
+          <span aria-hidden="true">{t('hero.marquee')}</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="why" class="section-render scroll-mt-28 py-24 md:py-36">
+      <div class="page-shell">
+        <div class="grid grid-cols-1 gap-10 md:grid-cols-[.72fr_1.28fr] md:items-end">
+          <div data-reveal>
+            <span class="eyebrow text-terra">{t('why.eyebrow')}</span>
+            <p class="mt-6 max-w-sm text-sm leading-7 text-ink-soft/70">{t('why.description')}</p>
+          </div>
+          <h2 class="max-w-[14ch] font-kannada-display text-[clamp(3.1rem,7vw,7.4rem)] font-semibold leading-[0.9] tracking-[-0.055em]" data-reveal data-reveal-delay="1">
+            {t('why.headingOne')}<br /><span class="text-terra">{t('why.headingTwo')}</span>
+          </h2>
+        </div>
+
+        <div class="mt-14 grid grid-cols-1 gap-4 md:grid-cols-3">
+          <article class="double-bezel" data-reveal>
+            <div class="double-bezel__core flex h-full flex-col justify-between bg-paper-light p-7 md:min-h-72 md:p-8">
+              <span class="font-sans text-[0.6rem] font-extrabold tracking-[0.18em] text-terra uppercase">01 · Culture</span>
+              <div class="mt-16">
+                <h3 class="font-kannada-display text-3xl font-semibold leading-tight">{t('why.cultureTitle')}</h3>
+                <p class="mt-4 text-sm leading-7 text-ink-soft/65">{t('why.cultureText')}</p>
+              </div>
+            </div>
+          </article>
+          <article class="double-bezel" data-reveal data-reveal-delay="1">
+            <div class="double-bezel__core flex h-full flex-col justify-between bg-paper-light p-7 md:min-h-72 md:p-8">
+              <span class="font-sans text-[0.6rem] font-extrabold tracking-[0.18em] text-terra uppercase">02 · Access</span>
+              <div class="mt-16">
+                <h3 class="font-kannada-display text-3xl font-semibold leading-tight">{t('why.accessTitle')}</h3>
+                <p class="mt-4 text-sm leading-7 text-ink-soft/65">{t('why.accessText')}</p>
+              </div>
+            </div>
+          </article>
+          <article class="double-bezel" data-reveal data-reveal-delay="2">
+            <div class="double-bezel__core flex h-full flex-col justify-between bg-paper-light p-7 md:min-h-72 md:p-8">
+              <span class="font-sans text-[0.6rem] font-extrabold tracking-[0.18em] text-terra uppercase">03 · Language</span>
+              <div class="mt-16">
+                <h3 class="font-kannada-display text-3xl font-semibold leading-tight">{t('why.languageTitle')}</h3>
+                <p class="mt-4 text-sm leading-7 text-ink-soft/65">{t('why.languageText')}</p>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div class="mt-5 rounded-[1.65rem] bg-ink px-6 py-5 text-center font-kannada-display text-lg font-semibold text-paper-light md:px-8 md:py-6 md:text-2xl" data-reveal>
+          {t('why.response')}
+        </div>
+      </div>
+    </section>
+
+    <section id="stories" class="section-render scroll-mt-28 py-24 md:py-36">
+      <div class="page-shell">
+        <div class="mb-14 grid grid-cols-1 gap-8 md:grid-cols-[.72fr_1.28fr] md:items-end">
+          <div data-reveal>
+            <span class="eyebrow text-leaf">{t('stories.eyebrow')}</span>
+            <p class="mt-5 text-[0.62rem] font-bold tracking-[0.18em] text-ink/40 uppercase">{t('stories.kicker')}</p>
+          </div>
+          <h2 class="font-kannada-display text-[clamp(3.6rem,7vw,7.5rem)] font-semibold leading-[0.88] tracking-[-0.055em]" data-reveal data-reveal-delay="1">
+            {t('stories.headingOne')}<br /><span class="font-kannada-serif text-[0.66em] font-normal italic text-terra">{t('stories.headingTwo')}</span>
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-1 gap-5 md:grid-cols-12">
+          {episodes.map((episode, index) => (
+            <div class={index === 0 ? 'md:col-span-12' : 'md:col-span-6'}>
+              <EpisodeCard
+                {...episode}
+                featured={index === 0}
+                guestLabel={t('stories.guestLabel')}
+                watchLabel={t('stories.watchLabel')}
+              />
+            </div>
+          ))}
+        </div>
+
+        <div class="mt-10 flex justify-center" data-reveal>
+          <a class="island-button bg-ink text-paper-light" href={externalLinks.youtube} target="_blank" rel="noreferrer">
+            <span class="font-kannada-display text-base">{t('stories.allCta')}</span>
+            <span class="island-button__icon bg-paper-light/12">
+              <svg class="size-4" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 16 16 8m-6 0h6v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            </span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="movement" class="section-render scroll-mt-28 px-2 py-24 md:px-5 md:py-32">
+      <div class="double-bezel mx-auto max-w-[96rem] bg-terra/10 p-1.5" data-reveal>
+        <div class="double-bezel__core relative overflow-hidden bg-ink px-5 py-24 text-paper-light md:px-14 md:py-36 lg:px-24">
+          <div class="pointer-events-none absolute -top-40 -right-32 size-[34rem] rounded-full bg-terra/22" aria-hidden="true"></div>
+          <div class="pointer-events-none absolute -bottom-32 -left-28 size-[24rem] rounded-full bg-turmeric/10" aria-hidden="true"></div>
+
+          <div class="relative grid grid-cols-1 gap-10 md:grid-cols-[1.18fr_.82fr] md:items-end">
+            <span class="eyebrow w-fit text-turmeric">{t('movement.eyebrow')}</span>
+            <div class="max-w-md md:pb-3">
+              <p class="font-kannada-serif text-2xl leading-[1.65] text-paper md:text-3xl">
+                {t('movement.statementOne')}<br />{t('movement.statementTwo')}
+              </p>
+              <p class="mt-6 text-sm leading-7 text-paper/60">
+                {t('movement.description')}
+              </p>
+            </div>
+          </div>
+
+          <div class="relative mt-16 grid grid-cols-1 gap-px overflow-hidden rounded-[1.6rem] bg-paper-light/14 sm:grid-cols-2">
+            <div class="bg-ink px-5 py-9 md:px-8 md:py-12">
+              <p class="font-kannada-display text-[clamp(4.2rem,8vw,8.5rem)] font-semibold leading-[0.76] tracking-[-0.07em] text-terra">{t('movement.number')}</p>
+              <p class="mt-5 font-kannada-display text-xl font-semibold text-paper/75 md:text-2xl">{t('movement.numberLabel')}</p>
+            </div>
+            <div class="bg-ink px-5 py-9 md:px-8 md:py-12">
+              <p class="font-kannada-display text-[clamp(4.2rem,8vw,8.5rem)] font-semibold leading-[0.76] tracking-[-0.07em] text-turmeric">{t('movement.jobsNumber')}</p>
+              <p class="mt-5 font-kannada-display text-xl font-semibold text-paper/75 md:text-2xl">{t('movement.jobsLabel')}</p>
+            </div>
+          </div>
+
+          <div class="relative mt-5 grid grid-cols-1 gap-3 md:grid-cols-3">
+            <div class="double-bezel bg-paper-light/5">
+              <div class="double-bezel__core h-full bg-paper-light/[0.045] p-7">
+                <span class="font-kannada-display text-5xl font-semibold text-turmeric">{t('movement.listenTitle')}</span>
+                <p class="mt-4 text-sm leading-6 text-paper/55">{t('movement.listenText')}</p>
+              </div>
+            </div>
+            <div class="double-bezel bg-paper-light/5">
+              <div class="double-bezel__core h-full bg-paper-light/[0.045] p-7">
+                <span class="font-kannada-display text-5xl font-semibold text-turmeric">{t('movement.learnTitle')}</span>
+                <p class="mt-4 text-sm leading-6 text-paper/55">{t('movement.learnText')}</p>
+              </div>
+            </div>
+            <div class="double-bezel bg-paper-light/5">
+              <div class="double-bezel__core h-full bg-paper-light/[0.045] p-7">
+                <span class="font-kannada-display text-5xl font-semibold text-turmeric">{t('movement.buildTitle')}</span>
+                <p class="mt-4 text-sm leading-6 text-paper/55">{t('movement.buildText')}</p>
+              </div>
+            </div>
+          </div>
+
+          <figure class="relative mt-5 aspect-[4/5] overflow-hidden rounded-[1.6rem] bg-ink sm:aspect-[16/8] lg:aspect-[16/6]">
+            <img
+              class="h-full w-full object-cover"
+              src={brandAssets.communityHero}
+              alt={t('movement.photoAlt')}
+              width="1920"
+              height="1280"
+              loading="lazy"
+              decoding="async"
+            />
+            <div class="absolute inset-0 bg-gradient-to-r from-ink/90 via-ink/38 to-transparent"></div>
+            <figcaption class="absolute inset-x-0 bottom-0 p-6 md:p-10">
+              <p class="max-w-[16ch] font-kannada-display text-4xl font-semibold leading-[0.95] tracking-[-0.04em] text-paper-light md:text-6xl">
+                {t('movement.payForwardOne')}<br /><span class="text-turmeric">{t('movement.payForwardTwo')}</span>
+              </p>
+              <p class="mt-5 text-[0.58rem] font-extrabold tracking-[0.18em] text-paper/58 uppercase">{t('movement.meetupCaption')}</p>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section id="community" class="section-render scroll-mt-28 py-24 md:py-40">
+      <div class="page-shell grid grid-cols-1 gap-14 md:grid-cols-[.78fr_1.22fr] md:gap-20">
+        <div class="md:sticky md:top-32 md:self-start" data-reveal>
+          <span class="eyebrow text-terra">{t('community.eyebrow')}</span>
+          <h2 class="mt-8 max-w-[9ch] font-kannada-display text-[clamp(4rem,7vw,7.4rem)] font-semibold leading-[0.86] tracking-[-0.06em]">
+            {t('community.headingOne')}<br /><span class="text-terra">{t('community.headingTwo')}</span>
+          </h2>
+          <p class="mt-8 max-w-md font-kannada-serif text-lg leading-[1.8] text-ink-soft">
+            {t('community.description')}
+          </p>
+
+          <div class="mt-10 flex items-center gap-4">
+            <div class="grid size-12 place-items-center rounded-full bg-leaf text-paper-light">
+              <svg class="size-5" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm8-1a3 3 0 1 0 0-6m-8 9c-4.2 0-6 2.2-6 5v2h12v-2c0-2.8-1.8-5-6-5Zm8-1c3.5 0 5 1.8 5 4.2V20h-5" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            </div>
+            <div>
+              <p class="font-kannada-display text-lg font-semibold">{t('community.hosts')}</p>
+              <p class="text-[0.6rem] font-bold tracking-[0.15em] text-ink/45 uppercase">{t('community.hostsLabel')}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          {communityLinks.map((item, index) => (
+            <div class="double-bezel" data-reveal data-reveal-delay={String(index + 1)}>
+              <a
+                class="double-bezel__core group grid grid-cols-[auto_1fr_auto] items-center gap-5 bg-paper-light p-5 transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1 md:gap-8 md:p-7"
+                href={item.href}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <span class="grid size-11 place-items-center rounded-full bg-ink/5 text-[0.58rem] font-extrabold tracking-[0.1em] text-ink/50">{item.number}</span>
+                <div>
+                  <h3 class="font-kannada-display text-2xl font-semibold md:text-3xl">{item.title}</h3>
+                  <p class="mt-2 hidden max-w-md text-xs leading-6 text-ink/55 sm:block">{item.text}</p>
+                  <p class="mt-3 text-[0.55rem] font-extrabold tracking-[0.16em] text-terra uppercase">{item.label}</p>
+                </div>
+                <span class="grid size-10 place-items-center rounded-full bg-ink text-paper-light transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:scale-105">
+                  <svg class="size-4" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 16 16 8m-6 0h6v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                </span>
+              </a>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section-render py-24 md:py-36">
+      <div class="page-shell">
+        <div class="stitch-rule text-terra" aria-hidden="true"></div>
+        <blockquote class="mx-auto max-w-5xl py-20 text-center" data-reveal>
+          <p class="font-kannada-serif text-[clamp(3.6rem,8vw,8rem)] font-semibold leading-[0.95] tracking-[-0.045em] text-terra">{t('quote.text')}</p>
+          <footer class="mt-7 text-[0.62rem] font-extrabold tracking-[0.2em] text-ink/45 uppercase">{t('quote.author')}</footer>
+        </blockquote>
+        <div class="stitch-rule text-terra" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <footer class="px-2 pt-12 pb-2 md:px-5 md:pt-20">
+      <div class="double-bezel mx-auto max-w-[96rem] bg-terra/10 p-1.5" data-reveal>
+        <div class="double-bezel__core overflow-hidden bg-terra px-5 pt-20 pb-7 text-paper-light md:px-12 md:pt-28 md:pb-9 lg:px-20">
+          <div class="grid grid-cols-1 gap-14 md:grid-cols-[1.25fr_.75fr] md:items-end">
+            <div>
+              <span class="eyebrow text-turmeric">{t('footer.eyebrow')}</span>
+              <h2 class="mt-8 max-w-[12ch] font-kannada-display text-[clamp(4.2rem,9vw,9.5rem)] font-semibold leading-[1.04] tracking-[-0.04em] md:leading-[0.98]">
+                <span class="block">{t('footer.titleOne')}</span>
+                <span class="block">{t('footer.titleTwo')}</span>
+                <span class="block">{t('footer.titleThree')}</span>
+              </h2>
+            </div>
+            <div class="md:pb-4">
+              <p class="font-kannada-serif text-xl leading-[1.7] text-paper/75">{t('footer.description')}</p>
+              <div class="mt-8 flex flex-wrap gap-3">
+                <a class="island-button bg-paper-light text-terra" href={officialPath(locale, 'patron')} target="_blank" rel="noreferrer">
+                <span class="font-sans text-sm">{t('footer.cta')}</span>
+                <span class="island-button__icon bg-terra/8">
+                  <svg class="size-4" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 16 16 8m-6 0h6v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                </span>
+                </a>
+                <a class="island-button bg-ink/18 text-paper-light shadow-[inset_0_0_0_1px_rgba(255,255,255,.18)]" href={externalLinks.linktree} target="_blank" rel="noreferrer">
+                  <span class="font-sans text-sm">{t('footer.allLinks')}</span>
+                  <span class="island-button__icon bg-paper-light/10">
+                    <svg class="size-4" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 16 16 8m-6 0h6v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                  </span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-24 flex flex-col gap-7 border-t border-paper-light/14 pt-7 text-[0.62rem] font-bold tracking-[0.1em] text-paper/65 uppercase md:flex-row md:items-center md:justify-between">
+            <a class="font-kannada-display text-2xl font-semibold normal-case tracking-[-0.03em] text-paper-light" href="#top">ಮುಂದೆ ಬನ್ನಿ →</a>
+            <div class="flex flex-wrap gap-x-6 gap-y-3">
+              <a class="transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-0.5 hover:text-paper-light" href={externalLinks.instagram} target="_blank" rel="noreferrer">Instagram</a>
+              <a class="transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-0.5 hover:text-paper-light" href={externalLinks.youtube} target="_blank" rel="noreferrer">YouTube</a>
+              <a class="transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-0.5 hover:text-paper-light" href={externalLinks.spotify} target="_blank" rel="noreferrer">Spotify</a>
+              <a class="transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-0.5 hover:text-paper-light" href={externalLinks.linktree} target="_blank" rel="noreferrer">Linktree</a>
+            </div>
+            <span>{t('footer.place')} · {new Date().getFullYear()}</span>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </main>
+</BaseLayout>

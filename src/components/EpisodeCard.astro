@@ -1,0 +1,70 @@
+---
+interface Props {
+  episode: string;
+  title: string;
+  guest: string;
+  image: string;
+  href: string;
+  accent?: 'paper' | 'yellow' | 'red';
+  featured?: boolean;
+  guestLabel: string;
+  watchLabel: string;
+}
+
+const {
+  episode,
+  title,
+  guest,
+  image,
+  href,
+  accent = 'paper',
+  featured = false,
+  guestLabel,
+  watchLabel,
+} = Astro.props;
+
+const accentClass = {
+  paper: 'bg-paper-light text-ink',
+  yellow: 'bg-turmeric text-ink',
+  red: 'bg-terra text-paper-light',
+}[accent];
+---
+
+<article class={`double-bezel h-full ${featured ? 'md:col-span-7' : ''}`} data-reveal>
+  <a
+    class={`double-bezel__core group flex h-full overflow-hidden ${featured ? 'flex-col bg-paper-light lg:flex-row' : 'flex-col'} ${accentClass}`}
+    href={href}
+    target="_blank"
+    rel="noreferrer"
+    aria-label={`${title} — ${watchLabel}`}
+  >
+    <div class={`relative overflow-hidden ${featured ? 'aspect-video w-full lg:aspect-auto lg:w-[58%]' : 'aspect-video w-full'}`}>
+      <img
+        class="h-full w-full object-cover transition-transform duration-1000 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-[1.035]"
+        src={image}
+        alt=""
+        loading="lazy"
+        decoding="async"
+      />
+      <div class="absolute inset-0 bg-gradient-to-t from-ink/45 via-transparent to-transparent"></div>
+      <span class="absolute right-4 bottom-4 grid size-11 place-items-center rounded-full bg-paper-light text-ink shadow-[0_10px_35px_rgba(24,21,15,0.16)] transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-105 group-hover:rotate-[-4deg]">
+        <svg class="ml-0.5 size-4" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="m9 7 8 5-8 5V7Z" fill="currentColor" />
+        </svg>
+      </span>
+    </div>
+
+    <div class={`flex flex-1 flex-col justify-between gap-8 p-6 md:p-8 ${featured ? 'lg:p-10' : ''}`}>
+      <div>
+        <div class="mb-5 flex items-center justify-between gap-3 font-sans text-[0.58rem] font-extrabold tracking-[0.18em] uppercase opacity-60">
+          <span>{episode}</span>
+          <span>Podcast ↗</span>
+        </div>
+        <h3 class={`font-kannada-display font-semibold tracking-[-0.035em] ${featured ? 'text-4xl leading-[1.03] md:text-5xl' : 'text-3xl leading-[1.08]'}`}>
+          {title}
+        </h3>
+      </div>
+      <p class="font-kannada-serif text-sm opacity-70">{guestLabel} · {guest}</p>
+    </div>
+  </a>
+</article>
